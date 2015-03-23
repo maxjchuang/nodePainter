@@ -5,11 +5,23 @@ angular.module('nodePainter')
     return {
       restrict: 'E',
       replace: true,
+      scope: {
+        data: '='
+      },
       templateUrl: 'components/painter/template.html',
       link: function (scope, elem, attr, ctrl) {
         var ctx = elem[0].getContext('2d');
-        ctx.fillStyle='#FF0000';
-        ctx.fillRect(0,0,80,100);
+        var key;
+
+        _.each(scope.data, function (item, index) {
+          key = Object.keys(item)[0];
+          if (_.isArray(item[key])) {
+            ctx[key].apply(ctx, item[key]);
+          } else {
+            ctx[key] = item[key];
+          }
+        });
+
       }
     };
   });
