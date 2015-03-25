@@ -32,6 +32,7 @@
     <div ui-view></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <!--
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
@@ -40,6 +41,7 @@
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>
+    -->
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
@@ -58,9 +60,12 @@
 
     <!-- build:js({.tmp,src}) scripts/app.js -->
     <!-- inject:js -->
+    <script src="app/index.js"></script>
+    <script src="components/tools/tools.js"></script>
+    <script src="components/tools/straight.js"></script>
+    <script src="components/tools/line.js"></script>
     <script src="components/painter/middle.controller.js"></script>
     <script src="components/painter/front.controller.js"></script>
-    <script src="app/index.js"></script>
     <script src="components/painter/directive.js"></script>
     <script src="components/painter/back.controller.js"></script>
     <script src="components/ngCanvas/directive.js"></script>

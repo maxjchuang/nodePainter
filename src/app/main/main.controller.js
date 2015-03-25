@@ -5,5 +5,7 @@ angular.module('nodePainter')
     $scope.drawData = [
       {fillStyle: '#FF00FF'},
       {fillRect: [100, 300, 500, 10]}
-    ]
+    ];
+
+    $scope.toolType = 'line';
   });

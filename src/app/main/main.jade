@@ -3,11 +3,13 @@
 
   .row
     .col-md-12
-      button.btn.btn-primary 直线
+      .btn-group
+        button.btn.btn-primary(ng-click="toolType='line'") 线条
+        button.btn.btn-primary(ng-click="toolType='straight'") 直线
 
   .row
     .col-md-12
-      painter(data='drawData')
+      painter(data='drawData', tool='{{toolType}}')
 
   hr
   .footer
