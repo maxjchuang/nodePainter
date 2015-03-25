@@ -1,1 +1,9 @@
-canvas(width="1024", height="768")
+.painter
+  .back
+    ng-canvas(data='backData')
+  .middle
+    ng-canvas(data='middleData')
+  div
+    span ({{x}}, {{y}})
+  .front(ng-mousemove="mouseMove($event)", ng-mousedown="mouseDown($event)", ng-mouseup="mouseUp($event)")
+    ng-canvas(data='frontData')
