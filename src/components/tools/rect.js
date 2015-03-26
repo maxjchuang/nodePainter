@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nodePainter')
-  .factory('straight', function () {
+  .factory('rect', function () {
     var front = [], middle = [];
     var init = {};
 
@@ -12,7 +12,6 @@ angular.module('nodePainter')
 
         middle = [];
         middle.push({'beginPath': []});
-        middle.push({'moveTo': [event.offsetX, event.offsetY]});
       },
       
       'mouseMove': function (scope, event) {
@@ -23,8 +22,7 @@ angular.module('nodePainter')
           front = [];
           front.push({'clearRect': [0, 0, 1024, 768]});
           front.push({'beginPath': []});
-          front.push({'moveTo': [init.x, init.y]});
-          front.push({'lineTo': [event.offsetX, event.offsetY]});
+          front.push({'rect': [init.x, init.y, event.offsetX - init.x, event.offsetY - init.y]});
           front.push({'stroke': []});
           front.push({'closePath': []});
 
@@ -33,7 +31,7 @@ angular.module('nodePainter')
       },
 
       'mouseUp': function (scope, event) {
-        middle.push({'lineTo': [event.offsetX, event.offsetY]});
+        middle.push({'rect': [init.x, init.y, event.offsetX - init.x, event.offsetY - init.y]});
         middle.push({'stroke': []});
         middle.push({'closePath': []});
 

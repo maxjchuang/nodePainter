@@ -3,12 +3,12 @@
 angular.module('nodePainter')
   .factory('line', function () {
     var front = [], middle = [];
-    var line = {};
+    var init = {};
 
     return {
       'mouseDown': function (scope, event) {
-        line.x = event.offsetX;
-        line.y = event.offsetY;
+        init.x = event.offsetX;
+        init.y = event.offsetY;
 
         middle = [];
         middle.push({'beginPath': []});
@@ -22,12 +22,12 @@ angular.module('nodePainter')
         if (scope.isDrawing) {
           front = [];
           front.push({'beginPath': []});
-          front.push({'moveTo': [line.x, line.y]});
+          front.push({'moveTo': [init.x, init.y]});
           front.push({'lineTo': [event.offsetX, event.offsetY]});
           front.push({'stroke': []});
           front.push({'closePath': []});
-          line.x = event.offsetX;
-          line.y = event.offsetY;
+          init.x = event.offsetX;
+          init.y = event.offsetY;
 
           middle.push({'lineTo': [event.offsetX, event.offsetY]});
 
