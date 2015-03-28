@@ -27,6 +27,11 @@ angular.module('nodePainter')
           scope.middleData = [{'strokeStyle': newVal}];
         });
 
+        scope.$watch('data.strokeWidth', function (newVal, oldVal) {
+          scope.frontData = [{'lineWidth': newVal}];
+          scope.middleData = [{'lineWidth': newVal}];
+        });
+
         scope.mouseDown = function (event) {
           scope.isDrawing = true;
           tools[scope.data.tool]['mouseDown'](scope, event);

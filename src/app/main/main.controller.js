@@ -5,6 +5,7 @@ angular.module('nodePainter')
     $scope.drawData = {
       tool: 'line',
       bgColor: '#fff',
-      strokeColor: '#000'
+      strokeColor: '#000',
+      strokeWidth: 1
     }
   });

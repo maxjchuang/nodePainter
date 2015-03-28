@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('nodePainter', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'restangular', 'ui.router', 'ui.bootstrap', 'colorpicker.module'])
+angular.module('nodePainter', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'restangular', 'ui.router', 'ui.bootstrap', 'colorpicker.module', 'ui-rangeSlider'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
