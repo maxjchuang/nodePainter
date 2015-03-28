@@ -7,32 +7,40 @@ angular.module('nodePainter')
       replace: true,
       scope: {
         data: '=',
-        tool: '@'
       },
       templateUrl: 'components/painter/template.html',
       link: function (scope, elem, attr, ctrl) {
-        scope.backData = [
-          {fillStyle: '#FF00FF'},
-          {fillRect: [100, 300, 500, 10]}
-        ];
+        scope.backData = [];
         scope.frontData = [];
         scope.middleData = [];
         scope.isDrawing = false;
 
+        scope.$watch('data.bgColor', function (newVal, oldVal) {
+          scope.backData = [
+            {'fillStyle': newVal},
+            {'fillRect': [0, 0, 1024, 768]}
+          ];
+        });
+
+        scope.$watch('data.strokeColor', function (newVal, oldVal) {
+          scope.frontData = [{'strokeStyle': newVal}];
+          scope.middleData = [{'strokeStyle': newVal}];
+        });
+
         scope.mouseDown = function (event) {
           scope.isDrawing = true;
-          tools[scope.tool]['mouseDown'](scope, event);
+          tools[scope.data.tool]['mouseDown'](scope, event);
         };
 
         scope.mouseMove = function (event) {
-          scope.frontData = tools[scope.tool]['mouseMove'](scope, event);
+          scope.frontData = tools[scope.data.tool]['mouseMove'](scope, event);
         };
 
         scope.mouseUp = function (event) {
           scope.frontData = [{'clearRect': [0, 0, 1024, 768]}];
 
           scope.isDrawing = false;
-          scope.middleData = tools[scope.tool]['mouseUp'](scope, event);
+          scope.middleData = tools[scope.data.tool]['mouseUp'](scope, event);
         };
 
       }
