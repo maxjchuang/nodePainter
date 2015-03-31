@@ -32,6 +32,11 @@ angular.module('nodePainter')
           scope.middleData = [{'lineWidth': newVal}];
         });
 
+        scope.$watch('data.fontsize', function (newVal, oldVal) {
+          scope.frontData = [{'font': newVal + "px Arial"}];
+          scope.middleData = [{'font': newVal + "px Arial"}];
+        });
+
         scope.mouseDown = function (event) {
           scope.isDrawing = true;
           tools[scope.data.tool]['mouseDown'](scope, event);

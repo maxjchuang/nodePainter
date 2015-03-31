@@ -50,7 +50,7 @@ angular.module('nodePainter')
           front = [];
           front.push({'clearRect': [0, 0, 1024, 768]});
           front.push({'beginPath': []});
-          arrow(front, {x: init.x, y:init.y}, {x: event.offsetX, y: event.offsetY}, 30, 10);
+          arrow(front, {x: init.x, y:init.y}, {x: event.offsetX, y: event.offsetY}, 30, 10 * scope.data.strokeWidth);
           front.push({'stroke': []});
           front.push({'closePath': []});
 
@@ -59,7 +59,7 @@ angular.module('nodePainter')
       },
 
       'mouseUp': function (scope, event) {
-        arrow(middle, {x: init.x, y:init.y}, {x: event.offsetX, y: event.offsetY}, 30, 10);
+        arrow(middle, {x: init.x, y:init.y}, {x: event.offsetX, y: event.offsetY}, 30, 10 * scope.data.strokeWidth);
         middle.push({'stroke': []});
         middle.push({'closePath': []});
 

@@ -1,0 +1,7 @@
+form
+  .form-group
+    label 文字内容
+    input.form-control(type='text', ng-model="drawData.text", ng-init="''", placeholder='请输入文字内容')
+  .form-group
+    label 字体大小
+    div(range-slider="", min="10", max="100", model-min="0", model-max="drawData.fontsize", pin-handle="min", disabled="false", show-values="true")

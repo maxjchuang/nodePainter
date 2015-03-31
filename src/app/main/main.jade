@@ -9,11 +9,14 @@
         button.btn.btn-primary(ng-click="drawData.tool='rect'") 方框
         button.btn.btn-primary(ng-click="drawData.tool='oval'") 圆圈
         button.btn.btn-primary(ng-click="drawData.tool='arrow'") 箭头
+        button.btn.btn-primary(ng-click="drawData.tool='text'", ng-popover="components/textInput/template.html", placement="bottom") 文字
+
     .col-md-2
       .btn-group
         button.btn.btn-primary(colorpicker="", colorpicker-position="bottom", ng-model="drawData.bgColor") 背景颜色
         button.btn.btn-primary(colorpicker="", colorpicker-position="bottom", ng-model="drawData.strokeColor") 笔触颜色
-    .col-md-3
+
+    .col-md-2
       div(range-slider="", min="0", max="10", model-min="0", model-max="drawData.strokeWidth", pin-handle="min", disabled="false", show-values="true")
 
   .row

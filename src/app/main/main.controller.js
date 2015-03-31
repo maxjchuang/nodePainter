@@ -6,6 +6,7 @@ angular.module('nodePainter')
       tool: 'line',
       bgColor: '#fff',
       strokeColor: '#000',
-      strokeWidth: 1
+      strokeWidth: 1,
+      fontsize: 20
     }
   });
