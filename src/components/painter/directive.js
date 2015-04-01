@@ -37,6 +37,11 @@ angular.module('nodePainter')
           scope.middleData = [{'font': newVal + "px Arial"}];
         });
 
+        scope.$watch('data.clear', function (newVal, oldVal) {
+          scope.middleData = [{'clearRect': [0, 0, 1024, 768]}];
+          scope.data.clear = false;
+        });
+
         scope.mouseDown = function (event) {
           scope.isDrawing = true;
           tools[scope.data.tool]['mouseDown'](scope, event);

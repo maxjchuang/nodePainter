@@ -2,14 +2,21 @@
   div(ng-include="'components/navbar/navbar.html'")
 
   .row
-    .col-md-4
+    .col-md-5
       .btn-group
+        button.btn.btn-primary(ng-click="drawData.tool='pointer'") 指针
         button.btn.btn-primary(ng-click="drawData.tool='line'") 线条
         button.btn.btn-primary(ng-click="drawData.tool='straight'") 直线
         button.btn.btn-primary(ng-click="drawData.tool='rect'") 方框
         button.btn.btn-primary(ng-click="drawData.tool='oval'") 圆圈
         button.btn.btn-primary(ng-click="drawData.tool='arrow'") 箭头
         button.btn.btn-primary(ng-click="drawData.tool='text'", ng-popover="components/textInput/template.html", placement="bottom") 文字
+
+    .col-md-3
+      .btn-group
+        button.btn.btn-primary(ng-click="drawData.clear=true") 清除
+        button.btn.btn-primary(ng-click="drawData.tool='erase'") 擦除
+        button.btn.btn-primary(ng-click="drawData.tool='clearRect'") 框选
 
     .col-md-2
       .btn-group
