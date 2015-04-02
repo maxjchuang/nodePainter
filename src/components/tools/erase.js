@@ -19,6 +19,7 @@ angular.module('nodePainter')
 
         if (scope.isDrawing) {
           scope.middleData = [{'clearRect': [event.offsetX, event.offsetY, eraseWidth, eraseWidth]}];
+          middle.push({'clearRect': [event.offsetX, event.offsetY, eraseWidth, eraseWidth]});
         }
 
         return front;

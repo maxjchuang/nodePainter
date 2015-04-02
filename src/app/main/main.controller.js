@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nodePainter')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, socket) {
     $scope.drawData = {
       tool: 'pointer',
       bgColor: '#fff',
@@ -9,5 +9,9 @@ angular.module('nodePainter')
       strokeWidth: 1,
       text: '',
       fontsize: 20
-    }
+    };
+
+    socket.on('socketData', function (msg) {
+      $scope.socketData = msg;
+    });
   });
