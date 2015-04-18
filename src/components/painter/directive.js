@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nodePainter')
-  .directive('painter', function (tools, socket) {
+  .directive('painter', function (tools, socket, globalConfig) {
     return {
       restrict: 'E',
       replace: true,
@@ -24,35 +24,46 @@ angular.module('nodePainter')
 
           var temp = _.clone(scope.backData);
           temp.unshift('bgColor');
-          socket.emit('socketData', temp);
+
+          if (globalConfig.socket) {
+            socket.emit('socketData', temp);
+          }
         });
 
         scope.$watch('data.strokeColor', function (newVal, oldVal) {
           scope.frontData = [{'strokeStyle': newVal}];
           scope.middleData = [{'strokeStyle': newVal}];
 
-          socket.emit('socketData', scope.middleData);
+          if (globalConfig.socket) {
+            socket.emit('socketData', scope.middleData);
+          }
         });
 
         scope.$watch('data.strokeWidth', function (newVal, oldVal) {
           scope.frontData = [{'lineWidth': newVal}];
           scope.middleData = [{'lineWidth': newVal}];
 
-          socket.emit('socketData', scope.middleData);
+          if (globalConfig.socket) {
+            socket.emit('socketData', scope.middleData);
+          }
         });
 
         scope.$watch('data.fontsize', function (newVal, oldVal) {
           scope.frontData = [{'font': newVal + "px Arial"}];
           scope.middleData = [{'font': newVal + "px Arial"}];
 
-          socket.emit('socketData', scope.middleData);
+          if (globalConfig.socket) {
+            socket.emit('socketData', scope.middleData);
+          }
         });
 
         scope.$watch('data.clear', function (newVal, oldVal) {
           scope.middleData = [{'clearRect': [0, 0, 1024, 768]}];
           scope.data.clear = false;
 
-          socket.emit('socketData', scope.middleData);
+          if (globalConfig.socket) {
+            socket.emit('socketData', scope.middleData);
+          }
         });
 
         scope.mouseDown = function (event) {
@@ -70,17 +81,21 @@ angular.module('nodePainter')
           scope.isDrawing = false;
           scope.middleData = tools[scope.data.tool]['mouseUp'](scope, event);
 
-          socket.emit('socketData', scope.middleData);
+          if (globalConfig.socket) {
+            socket.emit('socketData', scope.middleData);
+          }
         };
 
-        scope.$watch('socketdata', function (newVal, oldVal) {
-          if (newVal[0] && newVal[0] == 'bgColor') {
-            newVal.shift();
-            scope.backData = newVal;
-          } else {
-            scope.middleData = newVal;
-          }
-        });
+        if (globalConfig.socket) {
+          scope.$watch('socketdata', function (newVal, oldVal) {
+            if (newVal[0] && newVal[0] == 'bgColor') {
+              newVal.shift();
+              scope.backData = newVal;
+            } else {
+              scope.middleData = newVal;
+            }
+          });
+        }
 
       }
     };

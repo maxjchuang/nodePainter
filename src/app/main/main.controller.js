@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nodePainter')
-  .controller('MainCtrl', function ($scope, socket) {
+  .controller('MainCtrl', function ($scope, socket, globalConfig) {
     $scope.drawData = {
       tool: 'pointer',
       bgColor: '#fff',
@@ -11,7 +11,11 @@ angular.module('nodePainter')
       fontsize: 20
     };
 
-    socket.on('socketData', function (msg) {
-      $scope.socketData = msg;
-    });
+    $scope.material = 'assets/images/angular.png';
+
+    if (globalConfig.socket) {
+      socket.on('socketData', function (msg) {
+        $scope.socketData = msg;
+      });
+    }
   });
