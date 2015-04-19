@@ -87,8 +87,8 @@ angular.module('nodePainter')
         };
 
         if (globalConfig.socket) {
-          scope.$watch('socketdata', function (newVal, oldVal) {
-            if (newVal[0] && newVal[0] == 'bgColor') {
+          scope.$watch('socketData', function (newVal, oldVal) {
+            if (newVal && newVal[0] == 'bgColor') {
               newVal.shift();
               scope.backData = newVal;
             } else {
@@ -96,6 +96,11 @@ angular.module('nodePainter')
             }
           });
         }
+
+        // 绘制图片
+        scope.$watch('data.materialData', function (newVal, oldVal) {
+          scope.middleData = newVal;
+        });
 
       }
     };
