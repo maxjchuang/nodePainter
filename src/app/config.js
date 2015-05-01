@@ -7,5 +7,5 @@
 angular.module('nodePainter')
   .constant('globalConfig', {
     // 是否使用socket.io
-    socket: true
+    socket: false
   });
