@@ -1,5 +1,6 @@
-.container
-  div(ng-include="'components/navbar/navbar.html'")
+.container-fluid
+  .row
+    div(ng-include="'components/navbar/navbar.html'")
 
   .row
     .col-md-5
@@ -27,13 +28,13 @@
       div(range-slider="", min="0", max="10", model-min="0", model-max="drawData.strokeWidth", pin-handle="min", disabled="false", show-values="true")
 
   .row
-    .col-md-12
+    .col-md-10
       painter(data='drawData', socketdata='socketData')
-  
-  .row
-    .col-md-12
-      .material-holder
+      .material-holder(ng-if='material')
         material(img='material')
+    .col-md-2
+      material-list
+
 
   hr
   .footer

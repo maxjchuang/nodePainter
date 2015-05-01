@@ -14,6 +14,7 @@ angular.module('nodePainter')
           startY = event.pageY - y;
           $document.on('mousemove', mousemove);
           $document.on('mouseup', mouseup);
+          event.stopPropagation();
         });
 
         function mousemove(event) {
@@ -24,11 +25,13 @@ angular.module('nodePainter')
             top: y + 'px',
             left: x + 'px'
           });
+          event.stopPropagation();
         }
 
         function mouseup(event) {
           $document.off('mousemove', mousemove);
           $document.off('mouseup', mouseup);
+          event.stopPropagation();
         }
       }
     };

@@ -12,11 +12,11 @@ angular.module('nodePainter')
       materialData: []
     };
 
-    $scope.material = 'assets/images/angular.png';
+    $scope.material = false;
 
     if (globalConfig.socket) {
       socket.on('socketData', function (msg) {
-        $scope.socketData = msg;
+        $scope.$broadcast('socketData', msg);
       });
     }
 
@@ -25,6 +25,20 @@ angular.module('nodePainter')
       arr.push({'drawImage': [data.img, data.x, data.y, data.width, data.height]});
       $scope.drawData.materialData = arr;
       $scope.$apply();
+    });
+
+
+    $scope.$on('materialSelect', function (event, data) {
+      $scope.material = data;
+    });
+
+    $scope.$on('closeMaterial', function (event, data) {
+      $scope.material = false;
+      $scope.$apply();
+    });
+
+    $scope.$watch('drawData.tool', function (newVal, oldVal) {
+      $scope.material = false;
     });
 
   });

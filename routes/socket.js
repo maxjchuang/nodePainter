@@ -5,6 +5,7 @@ var socket = function (io) {
 
     socket.on('socketData', function (msg) {
       socket.broadcast.emit('socketData', msg);
+      console.log("==============socketData: " + msg + "==================");
     });
 
   });

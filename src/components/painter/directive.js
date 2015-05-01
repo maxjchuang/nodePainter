@@ -87,12 +87,12 @@ angular.module('nodePainter')
         };
 
         if (globalConfig.socket) {
-          scope.$watch('socketData', function (newVal, oldVal) {
-            if (newVal && newVal[0] == 'bgColor') {
-              newVal.shift();
-              scope.backData = newVal;
+          scope.$on('socketData', function (event, msg) {
+            if (!_.isUndefined(msg) && msg[0] == 'bgColor') {
+              msg.shift();
+              scope.backData = msg;
             } else {
-              scope.middleData = newVal;
+              scope.middleData = msg;
             }
           });
         }

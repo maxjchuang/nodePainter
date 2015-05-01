@@ -29,7 +29,7 @@ angular.module('nodePainter')
         });
 
         // 双击绘制图片到画板
-        element.on('dblclick', function (event) {
+        element.find('img').on('dblclick', function (event) {
           var ele = element.find('img'),
               img = new Image();
           img.src = ele.attr('src');
@@ -41,8 +41,8 @@ angular.module('nodePainter')
                 width: ele.width(),
                 height: ele.height()
               };
-          debugger;
           scope.$emit('material', data);
+          event.stopPropagation();
         });
       }
     };

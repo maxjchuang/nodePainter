@@ -15,6 +15,13 @@ angular.module('nodePainter')
 
         scope.$watch('data', function (newVal, oldVal) {
           _.each(newVal, function (item, index) {
+            /*
+            if (attr.data == 'frontData') {
+              console.log(newVal);
+              debugger;
+            }
+            */
+
             key = Object.keys(item)[0];
             if (_.isArray(item[key])) {
               ctx[key].apply(ctx, item[key]);

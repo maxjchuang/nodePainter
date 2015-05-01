@@ -1,13 +1,12 @@
 .material-holder {
-  position: relative;
+  position: absolute;
+  top: 0;
   width: 1024px;
   height: 768px;
-  border: 1px solid #000;
   overflow: hidden;
 
   .material {
     position: absolute;
-    background-color: lightgrey;
     border: 1px dashed #000;
     cursor: move;
 
@@ -22,5 +21,39 @@
       border-radius: 5px;
       cursor: se-resize;
     }
+
+    .close {
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid #000;
+      top: -5px;
+      right: -5px;
+      width: 10px;
+      height: 10px;
+      font-size: 10px;
+      line-height: 10px;
+      opacity: 1;
+    }
   }
+}
+
+.material-list {
+  height: 748px;
+  border: 1px solid #ddd;
+  overflow: scroll;
+  position: relative;
+
+  ul, li {
+    margin: 0;
+    padding: 0;
+  }
+  li img {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .upload {
+    width: 100%;
+  }
+
 }
