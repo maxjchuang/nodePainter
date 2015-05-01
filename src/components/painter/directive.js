@@ -91,6 +91,11 @@ angular.module('nodePainter')
             if (!_.isUndefined(msg) && msg[0] == 'bgColor') {
               msg.shift();
               scope.backData = msg;
+            } else if(Object.keys(msg[0])[0] == 'drawImage') {
+              var img = new Image();
+              img.src = msg[0]['drawImage'][0];
+              msg[0]['drawImage'][0] = img;
+              scope.middleData = msg;
             } else {
               scope.middleData = msg;
             }

@@ -25,6 +25,8 @@ angular.module('nodePainter')
       arr.push({'drawImage': [data.img, data.x, data.y, data.width, data.height]});
       $scope.drawData.materialData = arr;
       $scope.$apply();
+      arr[0]['drawImage'][0] = data.img.src;
+      socket.emit('socketData', arr);
     });
 
 
