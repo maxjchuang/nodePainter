@@ -17,47 +17,60 @@ angular.module('nodePainter')
         scope.isDrawing = false;
 
         scope.$watch('data.bgColor', function (newVal, oldVal) {
+          if (newVal == oldVal) return;
+
           scope.backData = [
             {'fillStyle': newVal},
             {'fillRect': [0, 0, 1024, 768]}
           ];
 
-          var temp = _.clone(scope.backData);
-          temp.unshift('bgColor');
+          var temp = [{'bgColor': newVal}];
 
           if (globalConfig.socket) {
             socket.emit('socketData', temp);
+            scope.$emit('storagePush', temp);
           }
         });
 
         scope.$watch('data.strokeColor', function (newVal, oldVal) {
+          if (newVal == oldVal) return;
+
           scope.frontData = [{'strokeStyle': newVal}];
           scope.middleData = [{'strokeStyle': newVal}];
 
           if (globalConfig.socket) {
             socket.emit('socketData', scope.middleData);
+            scope.$emit('storagePush', scope.middleData);
           }
         });
 
         scope.$watch('data.strokeWidth', function (newVal, oldVal) {
+          if (newVal == oldVal) return;
+
           scope.frontData = [{'lineWidth': newVal}];
           scope.middleData = [{'lineWidth': newVal}];
 
           if (globalConfig.socket) {
             socket.emit('socketData', scope.middleData);
+            scope.$emit('storagePush', scope.middleData);
           }
         });
 
         scope.$watch('data.fontsize', function (newVal, oldVal) {
+          if (newVal == oldVal) return;
+
           scope.frontData = [{'font': newVal + "px Arial"}];
           scope.middleData = [{'font': newVal + "px Arial"}];
 
           if (globalConfig.socket) {
             socket.emit('socketData', scope.middleData);
+            scope.$emit('storagePush', scope.middleData);
           }
         });
 
         scope.$watch('data.clear', function (newVal, oldVal) {
+          if (newVal == oldVal) return;
+
           scope.middleData = [{'clearRect': [0, 0, 1024, 768]}];
           scope.data.clear = false;
 
@@ -83,20 +96,34 @@ angular.module('nodePainter')
 
           if (globalConfig.socket) {
             socket.emit('socketData', scope.middleData);
+            scope.$emit('storagePush', scope.middleData);
           }
         };
 
         if (globalConfig.socket) {
+          var bgColorArr = [];
           scope.$on('socketData', function (event, msg) {
-            if (!_.isUndefined(msg) && msg[0] == 'bgColor') {
-              msg.shift();
-              scope.backData = msg;
-            } else if(Object.keys(msg[0])[0] == 'drawImage') {
-              var img = new Image();
-              img.src = msg[0]['drawImage'][0];
-              msg[0]['drawImage'][0] = img;
-              scope.middleData = msg;
-            } else {
+            if (!_.isUndefined(msg)) {
+              var img;
+              for (var i=0; i<msg.length; i++) {
+                if (Object.keys(msg[i])[0] == 'bgColor') {
+                  bgColorArr = [
+                    {'fillStyle': msg[i]['bgColor']},
+                    {'fillRect': [0, 0, 1024, 768]}
+                  ];
+                  msg.splice(i, 1);
+                  i--;
+                } else if(Object.keys(msg[i])[0] == 'drawImage') {
+                  img = new Image();
+                  img.src = msg[i]['drawImage'][0];
+                  msg[i]['drawImage'][0] = img;
+                }
+              }
+
+              if (bgColorArr.length) {
+                scope.backData = bgColorArr;
+              }
+
               scope.middleData = msg;
             }
           });

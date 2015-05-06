@@ -14,7 +14,7 @@
 
       hr
 
-      button.btn.btn-primary(ng-click="drawData.clear=true") 清除
+      button.btn.btn-primary(ng-click="drawData.clear=true;clearStorage();") 清除
       button.btn.btn-primary(ng-click="drawData.tool='erase'") 擦除
       button.btn.btn-primary(ng-click="drawData.tool='clearRect'") 框选
 
@@ -23,6 +23,8 @@
       button.btn.btn-primary(colorpicker="", colorpicker-position="bottom", ng-model="drawData.bgColor") 背景颜色
       button.btn.btn-primary(colorpicker="", colorpicker-position="bottom", ng-model="drawData.strokeColor") 笔触颜色
 
+      hr
+      h5 画笔粗细
       div(range-slider="", min="0", max="10", model-min="0", model-max="drawData.strokeWidth", pin-handle="min", disabled="false", show-values="true")
 
     .col-md-9

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nodePainter')
-  .controller('MainCtrl', function ($scope, socket, globalConfig) {
+  .controller('MainCtrl', function ($scope, $timeout, socket, storage, globalConfig) {
     $scope.drawData = {
       tool: 'pointer',
       bgColor: '#fff',
@@ -11,6 +11,50 @@ angular.module('nodePainter')
       fontsize: 20,
       materialData: []
     };
+
+    var storageData = [];
+    var bgColor = '#fff';
+
+    var storagePush =  function (data) {
+
+      if (storage.get('storageData') !== null) {
+        storageData = storage.get('storageData');
+      }
+
+      _.each(data, function (item, index) {
+        var key = Object.keys(item)[0];
+
+        if (storageData.length) {
+          var lastItem = storageData[storageData.length - 1],
+              lastKey = Object.keys(lastItem)[0];
+
+          if ((key == 'strokeStyle' || key == 'lineWidth' || key == 'font' || key == 'bgColor')               && (key == lastKey)) 
+          {
+            storageData[storageData.length - 1] = item;
+          } else {
+            storageData.push(item);
+          }
+        } else {
+          storageData.push(item);
+        }
+      });
+
+      storage.set('storageData', storageData);
+    };
+
+    $scope.$on('storagePush', function (event, data) {
+      storagePush(data);
+    });
+
+    $scope.clearStorage = function () {
+      storage.set('storageData', []);
+    };
+
+    $timeout(function () {
+      if (storage.get('storageData') !== null) {
+        $scope.$broadcast('socketData', storage.get('storageData'));
+      }
+    }, 100);
 
     $scope.material = false;
 
@@ -26,7 +70,12 @@ angular.module('nodePainter')
       $scope.drawData.materialData = arr;
       $scope.$apply();
       arr[0]['drawImage'][0] = data.img.src;
-      socket.emit('socketData', arr);
+
+      if (globalConfig.socket) {
+        socket.emit('socketData', arr);
+      }
+
+      storagePush(arr);
     });
 
 
