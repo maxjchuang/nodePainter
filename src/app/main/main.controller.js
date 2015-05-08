@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nodePainter')
-  .controller('MainCtrl', function ($scope, $timeout, socket, storage, globalConfig) {
+  .controller('MainCtrl', function ($scope, $timeout, $document, socket, storage, upload, globalConfig) {
     $scope.drawData = {
       tool: 'pointer',
       bgColor: '#fff',
@@ -28,7 +28,7 @@ angular.module('nodePainter')
           var lastItem = storageData[storageData.length - 1],
               lastKey = Object.keys(lastItem)[0];
 
-          if ((key == 'strokeStyle' || key == 'lineWidth' || key == 'font' || key == 'bgColor')               && (key == lastKey)) 
+          if ((key == 'strokeStyle' || key == 'lineWidth' || key == 'font' || key == 'bgColor') && (key == lastKey)) 
           {
             storageData[storageData.length - 1] = item;
           } else {
@@ -54,6 +54,30 @@ angular.module('nodePainter')
       if (storage.get('storageData') !== null) {
         $scope.$broadcast('socketData', storage.get('storageData'));
       }
+
+      $document.on('paste', function (event) {
+        var clipboard = event.originalEvent.clipboardData;
+        for(var i=0,len=clipboard.items.length; i<len; i++) {
+          if(clipboard.items[i].kind == 'file' || clipboard.items[i].type.indexOf('image') > -1) {
+            var imageFile = clipboard.items[i].getAsFile();
+
+            upload({
+              url: '/upload',
+              method: 'POST',
+              data: {
+                image: imageFile
+              }
+            }).then(
+              function (response) {
+                console.log(response.data);
+                debugger;
+              }
+            );
+            debugger;
+
+          }
+        }
+      });
     }, 100);
 
     $scope.material = false;
