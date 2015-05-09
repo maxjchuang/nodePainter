@@ -3,4 +3,4 @@ div
     ul
       li(ng-repeat="item in materials")
         img(ng-src='{{item.src}}', ng-click='materialSelect(item)')
-  button.btn.btn-primary.btn-block.upload 上传图片素材
+  div.btn.btn-primary.btn-upload.upload(upload-button='', url='/upload', param='image', on-success='onSuccess(response)') 上传图片素材

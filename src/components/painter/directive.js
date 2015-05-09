@@ -124,7 +124,14 @@ angular.module('nodePainter')
                 scope.backData = bgColorArr;
               }
 
-              scope.middleData = msg;
+              if (img) {
+                img.onload = function () {
+                  scope.middleData = msg;
+                };
+              } else {
+                scope.middleData = msg;
+              }
+
             }
           });
         }

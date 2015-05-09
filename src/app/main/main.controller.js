@@ -69,7 +69,7 @@ angular.module('nodePainter')
               }
             }).then(
               function (response) {
-                console.log(response.data);
+                $scope.material = response.data.src;
                 debugger;
               }
             );
@@ -78,7 +78,7 @@ angular.module('nodePainter')
           }
         }
       });
-    }, 100);
+    });
 
     $scope.material = false;
 

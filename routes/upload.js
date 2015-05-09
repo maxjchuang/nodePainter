@@ -7,7 +7,7 @@ var util = require('util');
 router.post('/', function(req, res, next) {
   // parse a file upload
   var form = new formidable.IncomingForm();
-  form.uploadDir = './upload';
+  form.uploadDir = './dist/upload';
 
   form.parse(req, function(err, fields, files) {
 
@@ -33,15 +33,14 @@ router.post('/', function(req, res, next) {
       return;				   
     }
 
-    var imageName = Math.random() * 10 + '.' + extName;
+    var imageName = Math.random().toString().split('.')[1] + '.' + extName;
     var newPath = form.uploadDir + '/'+ imageName;
+    var resPath = '/upload/' + imageName;
 
-    console.log(newPath);
     fs.renameSync(files.image.path, newPath);  //重命名
 
-    res.writeHead(200, {'content-type': 'text/plain'});
-    res.write('received upload:\n\n');
-    res.end(util.inspect({fields: fields, files: files}));
+    res.json({src: resPath});
+
   });
 
 });

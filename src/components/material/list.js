@@ -19,6 +19,10 @@ angular.module('nodePainter')
         scope.materialSelect = function (item) {
           scope.$emit('materialSelect', item.src);
         };
+
+        scope.onSuccess= function (response) {
+          scope.$emit('materialSelect', response.data.src);
+        };
       }
     };
   });
