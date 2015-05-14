@@ -1,0 +1,18 @@
+nav.navbar.navbar-static-top.navbar-inverse(ng-controller='navCtrl')
+  .container-fluid
+    .navbar-header
+      a.navbar-brand(href='https://github.com/maxjchuang/nodePainter')
+        span.glyphicon.glyphicon-home
+        |  nodePainter
+    #bs-example-navbar-collapse-6.collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li(ui-sref-active='active')
+          a(ui-sref='local') 本地画板
+        li(ui-sref-active='active', ng-repeat='nav in navs')
+          a(ui-sref='remote({painterId: nav})') {{nav}}
+
+      ul.nav.navbar-nav.navbar-right
+        li
+          a 加入画板
+        li
+          a 新建画板

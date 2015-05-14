@@ -17,9 +17,11 @@ angular.module('nodePainter')
           _.each(newVal, function (item, index) {
             key = Object.keys(item)[0];
 
+            /*
             if (attr.data == 'middleData' && key == 'drawImage') {
               debugger;
             }
+            */
 
             if (_.isArray(item[key])) {
               ctx[key].apply(ctx, item[key]);

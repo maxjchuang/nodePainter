@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nodePainter')
-  .controller('MainCtrl', function ($scope, $timeout, $document, socket, storage, upload, globalConfig) {
+  .controller('remoteCtrl', function ($scope, $state, $timeout, $document, storage, socket, upload, globalConfig, $stateParams) {
     $scope.drawData = {
       tool: 'pointer',
       bgColor: '#fff',
@@ -11,50 +11,32 @@ angular.module('nodePainter')
       fontsize: 20,
       materialData: []
     };
+    
 
-    var storageData = [];
-    var bgColor = '#fff';
+    if ($stateParams.painterId) {
+      var painterId = $stateParams.painterId;
 
-    var storagePush =  function (data) {
-
-      if (storage.get('storageData') !== null) {
-        storageData = storage.get('storageData');
+      if (storage.get('remoteData')) {
+        var painterArr = storage.get('remoteData');
+      } else {
+        var painterArr = [];
+      }
+      if (_.indexOf(painterArr, painterId) == -1) {
+        painterArr.push(painterId);
+        storage.set('remoteData', painterArr);
       }
 
-      _.each(data, function (item, index) {
-        var key = Object.keys(item)[0];
-
-        if (storageData.length) {
-          var lastItem = storageData[storageData.length - 1],
-              lastKey = Object.keys(lastItem)[0];
-
-          if ((key == 'strokeStyle' || key == 'lineWidth' || key == 'font' || key == 'bgColor') && (key == lastKey)) 
-          {
-            storageData[storageData.length - 1] = item;
-          } else {
-            storageData.push(item);
-          }
-        } else {
-          storageData.push(item);
+      socket.emit('socketInit', painterId);
+      socket.on('socketInit', function (msg) {
+        if (msg && msg.id == painterId) {
+          $scope.$broadcast('socketData', msg.data);
         }
       });
-
-      storage.set('storageData', storageData);
-    };
-
-    $scope.$on('storagePush', function (event, data) {
-      storagePush(data);
-    });
-
-    $scope.clearStorage = function () {
-      storage.set('storageData', []);
-    };
+    } else {
+      $state.go('local');
+    }
 
     $timeout(function () {
-      if (storage.get('storageData') !== null) {
-        $scope.$broadcast('socketData', storage.get('storageData'));
-      }
-
       $document.on('paste', function (event) {
         var clipboard = event.originalEvent.clipboardData;
         for(var i=0,len=clipboard.items.length; i<len; i++) {
@@ -70,24 +52,31 @@ angular.module('nodePainter')
             }).then(
               function (response) {
                 $scope.material = response.data.src;
-                debugger;
               }
             );
-            debugger;
 
           }
         }
       });
     });
 
+
+    socket.on('socketData', function (msg) {
+      if (msg.id == painterId) {
+        $scope.$broadcast('socketData', msg.data);
+      }
+    });
+
+    $scope.$on('emitData', function (event, data) {
+      var msg = {
+        id: painterId,
+        data: data
+      };
+      socket.emit('socketData', msg);
+    });
+
+
     $scope.material = false;
-
-    if (globalConfig.socket) {
-      socket.on('socketData', function (msg) {
-        $scope.$broadcast('socketData', msg);
-      });
-    }
-
     $scope.$on('material', function (event, data) {
       var arr = [];
       arr.push({'drawImage': [data.img, data.x, data.y, data.width, data.height]});
@@ -95,11 +84,11 @@ angular.module('nodePainter')
       $scope.$apply();
       arr[0]['drawImage'][0] = data.img.src;
 
-      if (globalConfig.socket) {
-        socket.emit('socketData', arr);
-      }
-
-      storagePush(arr);
+      var msg = {
+        id: painterId,
+        data: arr
+      };
+      socket.emit('socketData', msg);
     });
 
 

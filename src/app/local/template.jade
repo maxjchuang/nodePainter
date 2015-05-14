@@ -1,6 +1,6 @@
 .container-fluid
   .row
-    div(ng-include="'components/navbar/navbar.html'")
+    div(ng-include="'components/navbar/template.html'")
 
   .row
     .col-md-1
@@ -14,7 +14,7 @@
 
       hr
 
-      button.btn.btn-primary(ng-click="drawData.clear=true;clearStorage();") 清除
+      button.btn.btn-primary(ng-click="drawData.clear=true") 清除
       button.btn.btn-primary(ng-click="drawData.tool='erase'") 擦除
       button.btn.btn-primary(ng-click="drawData.tool='clearRect'") 框选
 
